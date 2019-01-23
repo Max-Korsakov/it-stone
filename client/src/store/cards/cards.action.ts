@@ -14,8 +14,8 @@ export enum CardsActionTypes {
   MoveEnemyCardsWithinArray = '[card] Move Enemy Cards Within Array',
   MoveMyActiveCardsWithinArray = '[card] Move My Active Cards Within Array',
   MoveEnemyActiveCardsWithinArray = '[card] Move Enemy Active Cards Within Array',
-  GetMyBattleCard = '[cards] Move my card to battle',
-  GetEnemyBattleCard = '[cards] Move enemy card to battle',
+  GetMyBattleCard = '[cards] Get My Battle Card',
+  GetEnemyBattleCard = '[cards] Get Enemy Battle Card',
   DeleteMyCardFromBattle = '[cards] Delete my card from battle field',
   DecrementEnemyCardCount = '[cards] decrement enemy number of cards'
 }
