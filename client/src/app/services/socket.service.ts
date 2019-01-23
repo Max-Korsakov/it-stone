@@ -21,7 +21,7 @@ export class SocketService {
     this.socket.disconnect();
   }
 
-  public emit(event: string, data: any): void {
+  public emit(event: string, data?: any): void {
     // temporary solution
     console.group();
     console.log('----- SOCKET OUTGOING -----');
