@@ -1,7 +1,23 @@
 import { injectable, inject } from 'inversify';
 import SocketIO from 'socket.io';
 import { CardRepository } from '../card';
-import { Card } from './../../models';
+import { Card } from './../../models'
+
+enum CardsActionTypes {
+  LoadCards = '[cards] Load Cards',
+  LoadCardsSuccess = '[cards] Load Cards (Success)',
+  LoadCardsError = '[cards] Load Cards (Error)',
+  LoadCardsFromSocket = '[cards] Load Cards From Socket',
+  CardsLoadedFromSocket = '[cards] Cards Loaded From Socket',
+  MoveMyCardsWithinArray = '[cards] Move My Cards Within Array',
+  MoveEnemyCardsWithinArray = '[cards] Move Enemy Cards Within Array',
+  MoveMyActiveCardsWithinArray = '[cards] Move My Active Cards Within Array',
+  MoveEnemyActiveCardsWithinArray = '[cards] Move Enemy Active Cards Within Array',
+  GetMyBattleCard = '[cards] Get My Battle Card',
+  GotMyBattleCard = '[card] Got My Battle Card',
+  GetEnemyBattleCard = '[cards] Get Enemy Battle Card',
+  GotEnemyBattleCard = '[cards] Got Enemy Battle Card'
+}
 
 interface DataFromFront {
   myCards: number[];
@@ -19,6 +35,23 @@ interface User {
   myCards: number[];
   enemyActiveCards: number[];
   myActiveCards: number[];
+}
+
+interface Coordinates {
+  currentIndex: number;
+  previousIndex: number;
+};
+
+function getBattleCards(cardsArray: Card[], coordinates: Coordinates): Card[] {
+  return cardsArray.filter((card, index, array) => {
+    return array.indexOf(card) === coordinates.previousIndex;
+  });
+}
+
+function updateCards(cardsArray: Card[], coordinates: Coordinates): Card[] {
+  return cardsArray.filter((card, index, array) => {
+    return array.indexOf(card) !== coordinates.previousIndex;
+  });
 }
 
 @injectable()
@@ -42,20 +75,41 @@ export class SocketService {
   }
 
   public async setSocket(socketIO: SocketIO.Server): Promise<void | Response> {
+
     socketIO.on('connection', async (client: SocketIO.Socket) => {
+      let cards = await this.cardRepository.getCards();
+      let myCards = cards;
+      let enemyCards = cards;
+
       this.clients.push(client);
-      if (this.clients.length === 2) {
-        const states = await this.createDefaultState(15, 5);
-        this.clients.forEach((c, index) => {
-          c.emit('onReady', states[index]);
-        });
-      };
+
+      const states = await this.createDefaultState(15, 5);
+
       client.on('join', (room) => {
         client.join(room);
-      })
+      });
+
+      client.on(CardsActionTypes.LoadCardsFromSocket, () => {
+        socketIO.emit(CardsActionTypes.CardsLoadedFromSocket, cards);
+      });
+
+      client.on(CardsActionTypes.GetMyBattleCard, (coordinates) => {
+        let myBattleCards: Card[] = getBattleCards(cards, coordinates);
+        let myUpdatedCards: Card[] = updateCards(cards, coordinates);
+
+        socketIO.emit(CardsActionTypes.GotMyBattleCard, myBattleCards);
+        socketIO.emit(CardsActionTypes.CardsLoadedFromSocket, myUpdatedCards);
+      });
+
+      client.on(CardsActionTypes.GetEnemyBattleCard, (coordinates) => {
+        let enemyBattleCards = getBattleCards(cards, coordinates);
+        let enemyUpdatedCards = updateCards(cards, coordinates)
+
+        socketIO.emit(CardsActionTypes.GotEnemyBattleCard, enemyBattleCards);
+        socketIO.emit(CardsActionTypes.CardsLoadedFromSocket, enemyUpdatedCards);
+      });
 
       client.on('disconnect', () => this.onDisconnect(client));
-      client.emit('test', { message: 'message from back' });
     });
   }
 
