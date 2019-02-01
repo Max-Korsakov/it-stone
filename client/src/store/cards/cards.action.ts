@@ -2,22 +2,22 @@ import { Action } from '@ngrx/store';
 
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
-import { Card } from 'models';
+import { Card, Coordinates } from 'models';
 
 export enum CardsActionTypes {
   LoadCards = '[cards] Load Cards',
   LoadCardsSuccess = '[cards] Load Cards (Success)',
   LoadCardsError = '[cards] Load Cards (Error)',
-  GetMyNewCards = '[cards] Move cards to me from deck',
-  GetEnemyNewCards = '[cards] Move cards to enemy from deck',
-  MoveMyCardsWithinArray = '[card] Move My Cards Within Array',
-  MoveEnemyCardsWithinArray = '[card] Move Enemy Cards Within Array',
-  MoveMyActiveCardsWithinArray = '[card] Move My Active Cards Within Array',
-  MoveEnemyActiveCardsWithinArray = '[card] Move Enemy Active Cards Within Array',
+  LoadCardsFromSocket = '[cards] Load Cards From Socket',
+  CardsLoadedFromSocket = '[cards] Cards Loaded From Socket',
+  MoveMyCardsWithinArray = '[cards] Move My Cards Within Array',
+  MoveEnemyCardsWithinArray = '[cards] Move Enemy Cards Within Array',
+  MoveMyActiveCardsWithinArray = '[cards] Move My Active Cards Within Array',
+  MoveEnemyActiveCardsWithinArray = '[cards] Move Enemy Active Cards Within Array',
   GetMyBattleCard = '[cards] Get My Battle Card',
+  GotMyBattleCard = '[card] Got My Battle Card',
   GetEnemyBattleCard = '[cards] Get Enemy Battle Card',
-  DeleteMyCardFromBattle = '[cards] Delete my card from battle field',
-  DecrementEnemyCardCount = '[cards] decrement enemy number of cards'
+  GotEnemyBattleCard = '[cards] Got Enemy Battle Card'
 }
 
 export class LoadCards implements Action {
@@ -36,16 +36,16 @@ export class LoadCardsError implements Action {
   constructor(public payload: Error) { }
 }
 
-export class GetMyNewCards implements Action {
-  public readonly type = CardsActionTypes.GetMyNewCards;
+export class LoadCardsFromSocket implements Action {
+  public readonly type = CardsActionTypes.LoadCardsFromSocket;
 
-  constructor(public payload: { amount: number }) { }
+  constructor() { }
 }
 
-export class GetEnemyNewCards implements Action {
-  public readonly type = CardsActionTypes.GetEnemyNewCards;
+export class CardsLoadedFromSocket implements Action {
+  public readonly type = CardsActionTypes.CardsLoadedFromSocket;
 
-  constructor(public payload: { amount: number }) { }
+  constructor(public payload: Card[]) { }
 }
 
 export class MoveMyCardsWithinArray implements Action {
@@ -75,38 +75,38 @@ export class MoveEnemyActiveCardsWithinArray implements Action {
 export class GetMyBattleCard implements Action {
   public readonly type = CardsActionTypes.GetMyBattleCard;
 
-  constructor(public payload: CdkDragDrop<Card[]>) { }
+  constructor(public payload: Coordinates) { }
+}
+
+export class GotMyBattleCard implements Action {
+  public readonly type = CardsActionTypes.GotMyBattleCard;
+
+  constructor(public payload: Card[]) { }
 }
 
 export class GetEnemyBattleCard implements Action {
   public readonly type = CardsActionTypes.GetEnemyBattleCard;
 
-  constructor(public payload: CdkDragDrop<Card[]>) { }
+  constructor(public payload: Coordinates) { }
 }
 
-export class DeleteMyCardFromBattle implements Action {
-  public readonly type = CardsActionTypes.DeleteMyCardFromBattle;
+export class GotEnemyBattleCard implements Action {
+  public readonly type = CardsActionTypes.GotEnemyBattleCard;
 
-  constructor(public payload: { id: number }) { }
-}
-
-export class DecrementEnemyCardCount implements Action {
-  public readonly type = CardsActionTypes.DecrementEnemyCardCount;
-
-  constructor(public payload: { id: number }) { }
+  constructor(public payload: Card[]) { }
 }
 
 export type CardsActions =
   | LoadCards
   | LoadCardsSuccess
   | LoadCardsError
-  | GetMyNewCards
-  | GetEnemyNewCards
+  | LoadCardsFromSocket
+  | CardsLoadedFromSocket
   | MoveMyCardsWithinArray
   | MoveEnemyCardsWithinArray
   | MoveMyActiveCardsWithinArray
   | MoveEnemyActiveCardsWithinArray
   | GetMyBattleCard
+  | GotMyBattleCard
   | GetEnemyBattleCard
-  | DeleteMyCardFromBattle
-  | DecrementEnemyCardCount;
+  | GotEnemyBattleCard;

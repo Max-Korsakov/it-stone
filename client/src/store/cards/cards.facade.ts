@@ -1,18 +1,18 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Card } from 'models';
+import { Card, Coordinates } from 'models';
 
 import { cardsQuery } from './cards.selectors';
 import { CardsState } from './interfaces';
 
 import {
-  DeleteMyCardFromBattle,
   GetEnemyBattleCard,
-  GetEnemyNewCards,
   GetMyBattleCard,
-  GetMyNewCards,
+  GotEnemyBattleCard,
+  GotMyBattleCard,
   LoadCards,
+  LoadCardsFromSocket,
   MoveEnemyActiveCardsWithinArray,
   MoveEnemyCardsWithinArray,
   MoveMyActiveCardsWithinArray,
@@ -35,12 +35,8 @@ export class CardsFacade {
     this.store.dispatch(new LoadCards());
   }
 
-  public getMyNewCards(amount: number): void {
-    this.store.dispatch(new GetMyNewCards({ amount }));
-  }
-
-  public getEnemyNewCards(amount: number): void {
-    this.store.dispatch(new GetEnemyNewCards({ amount }));
+  public loadcardsFromSocket(): void {
+    this.store.dispatch(new LoadCardsFromSocket());
   }
 
   public moveMyCardsWithinArray(event: CdkDragDrop<Card[]>): void {
@@ -59,15 +55,19 @@ export class CardsFacade {
     this.store.dispatch(new MoveEnemyActiveCardsWithinArray(event));
   }
 
-  public getMyBattleCard(event: CdkDragDrop<Card[]>): void {
-    this.store.dispatch(new GetMyBattleCard(event));
+  public getMyBattleCard(coordinates: Coordinates): void {
+    this.store.dispatch(new GetMyBattleCard(coordinates));
   }
 
-  public getEnemyBattleCard(event: CdkDragDrop<Card[]>): void {
-    this.store.dispatch(new GetEnemyBattleCard(event));
+  public gotMyBattleCard(card: Card[]): void {
+    this.store.dispatch(new GotMyBattleCard(card));
   }
 
-  public deleteMyCardFromBattle(id: number): void {
-    this.store.dispatch(new DeleteMyCardFromBattle({ id }));
+  public getEnemyBattleCard(coordinates: Coordinates): void {
+    this.store.dispatch(new GetEnemyBattleCard(coordinates));
+  }
+
+  public gotEnemyBattleCard(card: Card[]): void {
+    this.store.dispatch(new GotEnemyBattleCard(card));
   }
 }

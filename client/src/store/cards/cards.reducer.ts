@@ -15,35 +15,16 @@ export const cardsReducer = (
         status: Status.Init
       };
 
-    case CardsActionTypes.LoadCardsSuccess:
+    case CardsActionTypes.LoadCardsFromSocket:
+      return {
+        ...state
+      };
+
+    case CardsActionTypes.CardsLoadedFromSocket:
       return {
         ...state,
-        status: Status.Success,
         myCards: action.payload,
-        enemyCards: [...state.cards, ...action.payload]
-      };
-
-    case CardsActionTypes.LoadCardsError:
-      return {
-        ...state,
-        status: Status.Error
-      };
-
-    case CardsActionTypes.GetMyNewCards:
-      const cardsArrToMe = state.deck.splice(
-        state.deck.length - action.payload.amount,
-        action.payload.amount
-      );
-      return {
-        ...state,
-        deck: state.deck
-      };
-
-    case CardsActionTypes.GetEnemyNewCards:
-      return {
-        ...state,
-        deck: state.deck,
-        enemyCardCount: state.enemyCardCount + action.payload.amount
+        enemyCards: action.payload
       };
 
     case CardsActionTypes.MoveMyCardsWithinArray:
@@ -78,51 +59,16 @@ export const cardsReducer = (
         ), ...state.enemyActiveCards]
       };
 
-    case CardsActionTypes.GetMyBattleCard:
-      const myActiveCardsArray = state.myCards.filter((item, index, array) => {
-        return array.indexOf(item) === action.payload.previousIndex;
-      });
-      const myUpdatedCards = state.myCards.filter((item, index, array) => {
-        return array.indexOf(item) !== action.payload.previousIndex;
-      });
+    case CardsActionTypes.GotMyBattleCard:
       return {
         ...state,
-        myActiveCards: [...state.myActiveCards, ...myActiveCardsArray].reverse(),
-        myCards: myUpdatedCards
+        myActiveCards: [...state.myActiveCards, ...action.payload]
       };
 
-    case CardsActionTypes.GetEnemyBattleCard:
-      const enemyActiveCardsArray = state.enemyCards.filter((item, index, array) => {
-        return array.indexOf(item) === action.payload.previousIndex;
-      });
-      const enemyUpdatedCards = state.enemyCards.filter((item, index, array) => {
-        return array.indexOf(item) !== action.payload.previousIndex;
-      });
+    case CardsActionTypes.GotEnemyBattleCard:
       return {
         ...state,
-        enemyActiveCards: [...state.enemyActiveCards, ...enemyActiveCardsArray].reverse(),
-        enemyCards: enemyUpdatedCards
-      };
-
-    case CardsActionTypes.DeleteMyCardFromBattle:
-      const myPrunedIds = state.myActiveCards.filter(item => {
-        return item.id !== action.payload.id;
-      });
-      return {
-        ...state,
-        myActiveCards: myPrunedIds
-      };
-
-    case CardsActionTypes.DecrementEnemyCardCount:
-      if (state.enemyCardCount > 0) {
-        const enemyPrunedIds = state.enemyCardCount--;
-        return {
-          ...state,
-          enemyCardCount: enemyPrunedIds
-        };
-      }
-      return {
-        ...state
+        enemyActiveCards: [...state.enemyActiveCards, ...action.payload]
       };
 
     default:

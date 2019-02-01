@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-
+import { Component, OnInit } from '@angular/core';
 import { Card } from 'models';
 import { CardsFacade, SocketFacade } from 'store';
 
@@ -19,13 +17,15 @@ export class FightPageComponent implements OnInit {
 
   constructor(
     private cardsFacade: CardsFacade,
-    private socketFacade: SocketFacade,
+    private socketFacade: SocketFacade
   ) {
     this.cardsFacade.loadCards();
     this.socketFacade.joinRoom();
   }
 
-  public ngOnInit(): void { }
+  public ngOnInit(): void {
+    this.cardsFacade.loadcardsFromSocket();
+  }
 
   public myDrop(event: CdkDragDrop<Card[]>): void {
     if (event.previousContainer === event.container) {
@@ -47,7 +47,11 @@ export class FightPageComponent implements OnInit {
     if (event.previousContainer === event.container) {
       this.cardsFacade.moveMyActiveCardsWithinArray(event);
     } else {
-      this.cardsFacade.getMyBattleCard(event);
+      const coordinates = {
+        currentIndex: event.currentIndex,
+        previousIndex: event.previousIndex
+      };
+      this.cardsFacade.getMyBattleCard(coordinates);
     }
   }
 
@@ -55,7 +59,11 @@ export class FightPageComponent implements OnInit {
     if (event.previousContainer === event.container) {
       this.cardsFacade.moveEnemyActiveCardsWithinArray(event);
     } else {
-      this.cardsFacade.getEnemyBattleCard(event);
+      const coordinates = {
+        currentIndex: event.currentIndex,
+        previousIndex: event.previousIndex
+      };
+      this.cardsFacade.getEnemyBattleCard(coordinates);
     }
   }
 }

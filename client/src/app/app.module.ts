@@ -33,6 +33,7 @@ import {
 } from 'pages';
 
 import {
+  CardsService,
   FightService,
   SocketService,
   TimerService,
@@ -138,7 +139,8 @@ const appRoutes: Routes = [
     UserService,
     CardsFacade,
     PlayersHPFacade,
-    SocketFacade
+    SocketFacade,
+    CardsService
   ],
   bootstrap: [AppComponent]
 })
