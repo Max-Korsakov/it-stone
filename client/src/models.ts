@@ -7,7 +7,12 @@ export enum Status {
 
 export enum SocketStatus {
   Disconnected,
-  Connected,
+  Connected
+}
+
+export interface Coordinates {
+  currentIndex: number;
+  previousIndex: number;
 }
 
 export interface Player {
