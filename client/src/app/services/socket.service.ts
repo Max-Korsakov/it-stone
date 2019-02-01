@@ -34,7 +34,7 @@ export class SocketService {
 
   public listen(event: string): Observable<any> {
     return new Observable(observer => {
-      this.socket.emit(event, data => {
+      this.socket.on(event, data => {
         // temporary solution
         console.group();
         console.log('----- SOCKET INBOUND -----');
