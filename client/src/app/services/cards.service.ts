@@ -1,6 +1,6 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { Card, Coordinates } from 'models';
+import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 
 import { SocketService } from './socket.service';
@@ -24,16 +24,15 @@ enum CardsActionTypes {
 @Injectable()
 export class CardsService {
   public loadCardsFromSocket$: Observable<any>;
-  public сardsLoadedFromSocket$: Observable<Card[]>
+  public сardsLoadedFromSocket$: Observable<Card[]>;
   public gotMyActiveCard$: Observable<any>;
   public gotEnemyActiveCard$: Observable<any>;
 
-  constructor(private socketService: SocketService) {
-
-    this.loadCardsFromSocket$ = this.socketService.listen(CardsActionTypes.LoadCardsFromSocket);
-    this.сardsLoadedFromSocket$ = this.socketService.listen(CardsActionTypes.CardsLoadedFromSocket);
-    this.gotMyActiveCard$ = this.socketService.listen(CardsActionTypes.GotMyBattleCard);
-    this.gotEnemyActiveCard$ = this.socketService.listen(CardsActionTypes.GotEnemyBattleCard);
+  constructor(private socketService: SocketService, private socket: Socket) {
+    this.loadCardsFromSocket$ = this.socket.fromEvent(CardsActionTypes.LoadCardsFromSocket);
+    this.сardsLoadedFromSocket$ = this.socket.fromEvent(CardsActionTypes.CardsLoadedFromSocket);
+    this.gotMyActiveCard$ = this.socket.fromEvent(CardsActionTypes.GotMyBattleCard);
+    this.gotEnemyActiveCard$ = this.socket.fromEvent(CardsActionTypes.GotEnemyBattleCard);
   }
 
   public loadCardsFromSocket(): void {

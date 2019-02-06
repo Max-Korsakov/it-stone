@@ -4,15 +4,8 @@ import { CardRepository } from '../card';
 import { Card } from './../../models'
 
 enum CardsActionTypes {
-  LoadCards = '[cards] Load Cards',
-  LoadCardsSuccess = '[cards] Load Cards (Success)',
-  LoadCardsError = '[cards] Load Cards (Error)',
   LoadCardsFromSocket = '[cards] Load Cards From Socket',
   CardsLoadedFromSocket = '[cards] Cards Loaded From Socket',
-  MoveMyCardsWithinArray = '[cards] Move My Cards Within Array',
-  MoveEnemyCardsWithinArray = '[cards] Move Enemy Cards Within Array',
-  MoveMyActiveCardsWithinArray = '[cards] Move My Active Cards Within Array',
-  MoveEnemyActiveCardsWithinArray = '[cards] Move Enemy Active Cards Within Array',
   GetMyBattleCard = '[cards] Get My Battle Card',
   GotMyBattleCard = '[card] Got My Battle Card',
   GetEnemyBattleCard = '[cards] Get Enemy Battle Card',
@@ -90,20 +83,20 @@ export class SocketService {
       });
 
       client.on(CardsActionTypes.LoadCardsFromSocket, () => {
-        socketIO.emit(CardsActionTypes.CardsLoadedFromSocket, cards);
+        socketIO.emit(CardsActionTypes.CardsLoadedFromSocket, myCards);
       });
 
       client.on(CardsActionTypes.GetMyBattleCard, (coordinates) => {
-        let myBattleCards: Card[] = getBattleCards(cards, coordinates);
-        let myUpdatedCards: Card[] = updateCards(cards, coordinates);
+        let myBattleCards: Card[] = getBattleCards(myCards, coordinates);
+        let myUpdatedCards: Card[] = updateCards(myCards, coordinates);
 
         socketIO.emit(CardsActionTypes.GotMyBattleCard, myBattleCards);
         socketIO.emit(CardsActionTypes.CardsLoadedFromSocket, myUpdatedCards);
       });
 
       client.on(CardsActionTypes.GetEnemyBattleCard, (coordinates) => {
-        let enemyBattleCards = getBattleCards(cards, coordinates);
-        let enemyUpdatedCards = updateCards(cards, coordinates)
+        let enemyBattleCards = getBattleCards(enemyCards, coordinates);
+        let enemyUpdatedCards = updateCards(enemyCards, coordinates)
 
         socketIO.emit(CardsActionTypes.GotEnemyBattleCard, enemyBattleCards);
         socketIO.emit(CardsActionTypes.CardsLoadedFromSocket, enemyUpdatedCards);

@@ -19,7 +19,6 @@ export class FightPageComponent implements OnInit {
     private cardsFacade: CardsFacade,
     private socketFacade: SocketFacade
   ) {
-    this.cardsFacade.loadCards();
     this.socketFacade.joinRoom();
   }
 
