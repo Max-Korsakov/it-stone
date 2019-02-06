@@ -71,6 +71,41 @@ export const cardsReducer = (
         enemyActiveCards: [...state.enemyActiveCards, ...action.payload]
       };
 
+      case CardsActionTypes.DeleteCard:
+      const prunedId = state.myCards.filter(item => {
+        return item.id !== action.payload.id;
+      });
+      let id: number;
+      if (state.myCards[0].id === action.payload.id) {
+        if (!state.myCards[1]) {
+          id = 100;
+        } else {
+          id = state.myCards[1].id;
+        }
+      } else {
+        id = state.myCards[0].id;
+      }
+      return {
+        ...state,
+        myCards: prunedId,
+        selectedCardId: id
+      };
+
+      case CardsActionTypes.UploadCard:
+      const newCard = action.payload.card;
+      return {
+        ...state,
+        myCards: [...state.myCards, newCard],
+        selectedCardId: newCard.id
+      };
+
+      case CardsActionTypes.ChangeSelectedCardId:
+      const newSelectedCardId = action.payload.id;
+      return {
+        ...state,
+        selectedCardId: newSelectedCardId
+      };
+
     default:
       return state;
   }
