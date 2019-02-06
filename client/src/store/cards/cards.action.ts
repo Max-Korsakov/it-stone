@@ -6,9 +6,6 @@ import { NgForm } from '@angular/forms';
 import { Card, Coordinates } from 'models';
 
 export enum CardsActionTypes {
-  LoadCards = '[cards] Load Cards',
-  LoadCardsSuccess = '[cards] Load Cards (Success)',
-  LoadCardsError = '[cards] Load Cards (Error)',
   LoadCardsFromSocket = '[cards] Load Cards From Socket',
   CardsLoadedFromSocket = '[cards] Cards Loaded From Socket',
   GotMyBattleCard = '[card] Got My Battle Card',
@@ -29,22 +26,6 @@ export enum CardsActionTypes {
   ShowDeleteCardPopup = '[cards] Show delete card popup',
   ShowNewCardPopup = '[cards] Show new card popup',
   CheckNewCardDataLoss = '[cards] Check if NewCard data will loss'
-}
-
-export class LoadCards implements Action {
-  public readonly type = CardsActionTypes.LoadCards;
-}
-
-export class LoadCardsSuccess implements Action {
-  public readonly type = CardsActionTypes.LoadCardsSuccess;
-
-  constructor(public payload: Card[]) { }
-}
-
-export class LoadCardsError implements Action {
-  public readonly type = CardsActionTypes.LoadCardsError;
-
-  constructor(public payload: Error) { }
 }
 
 export class LoadCardsFromSocket implements Action {
@@ -144,9 +125,6 @@ export class CheckNewCardDataLoss implements Action {
 }
 
 export type CardsActions =
-  | LoadCards
-  | LoadCardsSuccess
-  | LoadCardsError
   | LoadCardsFromSocket
   | CardsLoadedFromSocket
   | MoveMyCardsWithinArray

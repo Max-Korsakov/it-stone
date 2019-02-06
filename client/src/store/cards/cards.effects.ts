@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -6,7 +5,7 @@ import { CardsService } from 'app/services';
 import { PopupsService } from 'app/services/popups.service';
 import { Card } from 'models';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CardsFacade } from 'store/cards/cards.facade';
 
 import * as skillsActions from '../skills/skills.action';
@@ -15,8 +14,6 @@ import * as cardActions from './cards.action';
 
 @Injectable()
 export class CardsEffects {
-  public baseUrl = 'http://www.mocky.io/v2/5c52bf29320000a72a855cbf';
-  public secondUrl = 'http://www.mocky.io/v2/5be983f82e00005f00f14631';
   public resultAction: Action;
 
   @Effect() public cardsLoadedFromsSocket$: Observable<Action> = this.actions$.pipe(
@@ -98,7 +95,6 @@ export class CardsEffects {
   );
 
   public constructor(
-    private http: HttpClient,
     private actions$: Actions,
     private popupsService: PopupsService,
     private cardsService: CardsService,

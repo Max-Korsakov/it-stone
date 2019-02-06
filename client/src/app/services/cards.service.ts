@@ -6,15 +6,8 @@ import { Observable } from 'rxjs';
 import { SocketService } from './socket.service';
 
 enum CardsActionTypes {
-  LoadCards = '[cards] Load Cards',
-  LoadCardsSuccess = '[cards] Load Cards (Success)',
-  LoadCardsError = '[cards] Load Cards (Error)',
   LoadCardsFromSocket = '[cards] Load Cards From Socket',
   CardsLoadedFromSocket = '[cards] Cards Loaded From Socket',
-  MoveMyCardsWithinArray = '[cards] Move My Cards Within Array',
-  MoveEnemyCardsWithinArray = '[cards] Move Enemy Cards Within Array',
-  MoveMyActiveCardsWithinArray = '[cards] Move My Active Cards Within Array',
-  MoveEnemyActiveCardsWithinArray = '[cards] Move Enemy Active Cards Within Array',
   GetMyBattleCard = '[cards] Get My Battle Card',
   GotMyBattleCard = '[card] Got My Battle Card',
   GetEnemyBattleCard = '[cards] Get Enemy Battle Card',
@@ -23,10 +16,10 @@ enum CardsActionTypes {
 
 @Injectable()
 export class CardsService {
-  public loadCardsFromSocket$: Observable<any>;
+  public loadCardsFromSocket$: Observable<Card[]>;
   public сardsLoadedFromSocket$: Observable<Card[]>;
-  public gotMyActiveCard$: Observable<any>;
-  public gotEnemyActiveCard$: Observable<any>;
+  public gotMyActiveCard$: Observable<Card[]>;
+  public gotEnemyActiveCard$: Observable<Card[]>;
 
   constructor(private socketService: SocketService, private socket: Socket) {
     this.loadCardsFromSocket$ = this.socket.fromEvent(CardsActionTypes.LoadCardsFromSocket);
@@ -36,14 +29,14 @@ export class CardsService {
   }
 
   public loadCardsFromSocket(): void {
-    this.socketService.emit(CardsActionTypes.LoadCardsFromSocket);
+    this.socket.emit(CardsActionTypes.LoadCardsFromSocket);
   }
 
   public getMyBattleCards(coordinates: Coordinates): void {
-    this.socketService.emit(CardsActionTypes.GetMyBattleCard, coordinates);
+    this.socket.emit(CardsActionTypes.GetMyBattleCard, coordinates);
   }
 
   public getEnemyBattleCard(coordinates: Coordinates): void {
-    this.socketService.emit(CardsActionTypes.GetEnemyBattleCard, coordinates);
+    this.socket.emit(CardsActionTypes.GetEnemyBattleCard, coordinates);
   }
 }

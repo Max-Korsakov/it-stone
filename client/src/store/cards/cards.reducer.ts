@@ -9,12 +9,6 @@ export const cardsReducer = (
   action: CardsActions
 ): CardsState => {
   switch (action.type) {
-    case CardsActionTypes.LoadCards:
-      return {
-        ...state,
-        status: Status.Init
-      };
-
     case CardsActionTypes.LoadCardsFromSocket:
       return {
         ...state

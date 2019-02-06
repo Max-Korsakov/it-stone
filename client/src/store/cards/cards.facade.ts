@@ -12,7 +12,6 @@ import {
   GetMyBattleCard,
   GotEnemyBattleCard,
   GotMyBattleCard,
-  LoadCards,
   LoadCardsFromSocket,
   MoveEnemyActiveCardsWithinArray,
   MoveEnemyCardsWithinArray,
@@ -38,10 +37,6 @@ export class CardsFacade {
   public selectedCardId$ = this.store.select(cardsQuery.getSelectedCardId);
 
   public constructor(private store: Store<CardsState>) { }
-
-  public loadCards(): void {
-    this.store.dispatch(new LoadCards());
-  }
 
   public loadcardsFromSocket(): void {
     this.store.dispatch(new LoadCardsFromSocket());

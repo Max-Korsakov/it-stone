@@ -17,15 +17,4 @@ export class SocketService {
   public disconnect(): void {
     this.socket.disconnect();
   }
-
-  public emit(event: string, data?: any): void {
-    // temporary solution
-    console.group();
-    console.log('----- SOCKET OUTGOING -----');
-    console.log('Action: ', event);
-    console.log('Payload: ', data);
-    console.groupEnd();
-
-    this.socket.emit(event, data);
-  }
 }
