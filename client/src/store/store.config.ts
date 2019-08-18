@@ -6,6 +6,8 @@ import { SkillsState } from './skills/interfaces';
 import { skillsReducer } from './skills/skills.reducer';
 import { aboutCardsReducer } from './about-page/about-page.reducer';
 import { AboutPageState } from './about-page/interfaces'
+import { PlayersInfoState } from './players-info/interfaces'
+import { playersInfoReducer } from './players-info/players-info.reducers'
 import { SocketState, socketReducer } from './socket';
 
 export enum Status {
@@ -21,6 +23,7 @@ export interface State {
   skills: SkillsState;
   socket: SocketState;
   aboutPage: AboutPageState;
+  playersInfo: PlayersInfoState;
 }
 
 export const reducers = {
@@ -28,5 +31,6 @@ export const reducers = {
   playersHP: playersHPReducer,
   skills: skillsReducer,
   socket: socketReducer,
-  aboutCards: aboutCardsReducer
+  aboutCards: aboutCardsReducer,
+  playersInfo: playersInfoReducer
 };

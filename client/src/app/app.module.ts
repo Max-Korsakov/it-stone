@@ -25,6 +25,7 @@ import {
   FightPageComponent,
   NotFoundPageComponent,
   WelcomePageComponent,
+  
 } from 'pages';
 import {
   FightService,
@@ -59,6 +60,7 @@ import { CardEditorComponent } from './pages/card-editor/card-editor.component';
 import { PipesModule } from './pipes/pipes.module';
 import { SkillsService } from './services/skills.service';
 import { CardCarouselComponent } from './components/card-carousel/card-carousel.component';
+import { PlayerInfoComponent } from './pages/player-info/player-info.component';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -78,6 +80,7 @@ const appRoutes: Routes = [
   { path: 'battle', component: FightPageComponent },
   { path: 'editor', component: CardEditorComponent },
   { path: 'about', component: AboutPageComponent},
+  { path: 'player', component: PlayerInfoComponent},
   {
     path: '',
     redirectTo: '/battle',
@@ -137,7 +140,8 @@ const appRoutes: Routes = [
     CardEditorComponent,
     CardDetailComponent,
     MaterialDialogComponent,
-    CardCarouselComponent
+    CardCarouselComponent,
+    PlayerInfoComponent
   ],
   entryComponents: [
     MaterialDialogComponent
