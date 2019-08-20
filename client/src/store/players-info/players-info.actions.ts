@@ -20,7 +20,6 @@ export class RenamePlayer implements Action {
     constructor (public payload: {name: string}) {}
 }
 
-
 export class LoadCollection implements Action {
     public readonly type = PlayersInfoActionType.LoadCollection;
 
