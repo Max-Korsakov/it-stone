@@ -12,4 +12,3 @@ const getPlayersInfo = createSelector(
 export const playersInfoQuery = {
     getPlayersInfo
 }
-//efwefefef
