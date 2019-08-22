@@ -1,7 +1,13 @@
-import { PlayersInfoState} from './interfaces';
+import { PlayersInfoState } from './interfaces';
+import { Status } from 'models';
 
 export const playersInfoInitialState: PlayersInfoState = {
-    name: "no name",
-    myCollection: ['empty'],
-    rate: 0
+    player: [
+        {
+            firstName: 'Player',
+            lastName: '1',
+            health: 10
+        }
+    ],
+    status: 2
 };

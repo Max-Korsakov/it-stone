@@ -33,7 +33,7 @@ import {
   TimerService,
   UserService,
 } from 'services';
-import { reducers } from 'store';
+import { reducers, PlayersInfoFacade } from 'store';
 import {
   CardsEffects,
   CardsFacade,
@@ -60,7 +60,7 @@ import { CardEditorComponent } from './pages/card-editor/card-editor.component';
 import { PipesModule } from './pipes/pipes.module';
 import { SkillsService } from './services/skills.service';
 import { CardCarouselComponent } from './components/card-carousel/card-carousel.component';
-import { PlayerInfoComponent } from './pages/player-info/player-info.component';
+import { PlayerInfoComponent } from './components/player-info/player-info.component';
 
 export function getAuthServiceConfigs(): AuthServiceConfig {
   const config = new AuthServiceConfig(
@@ -114,6 +114,7 @@ const appRoutes: Routes = [
     StoreModule.forFeature('skillsState', reducers.skills, {}),
     StoreModule.forFeature('playersHPState', reducers.playersHP, {}),
     StoreModule.forFeature('socketState', reducers.socket, {}),
+    StoreModule.forFeature('playersInfoState', reducers.playersInfo, {}),
     EffectsModule.forRoot([CardsEffects, PlayersHPEffects, SocketEffect, SkillsEffects, AboutPageEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25
@@ -159,6 +160,7 @@ const appRoutes: Routes = [
     CardsFacade,
     SkillsFacade,
     AboutPageFacade,
+    PlayersInfoFacade,
     PlayersHPFacade,
     SocketFacade
   ],

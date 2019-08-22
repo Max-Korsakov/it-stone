@@ -1,34 +1,28 @@
 import { PlayersInfoState } from './interfaces';
-import { PlayersInfoActions, PlayersInfoActionType } from './players-info.actions';
+import { PlayersInfoActions, PlayersInfoActionType } from './players-info.action';
 import { playersInfoInitialState } from './players-info.initial';
-import { state } from '@angular/animations';
+import { Status } from 'models';
 
 export const playersInfoReducer = (state: PlayersInfoState = playersInfoInitialState,
     action: PlayersInfoActions): PlayersInfoState => {
     switch (action.type) {
-        case PlayersInfoActionType.AddPlayers:
+        case PlayersInfoActionType.LoadPlayerInfo:
             return {
                 ...state,
-                myCollection: action.payload.myCollection,
-                name: action.payload.name,
-                rate: action.payload.rate
             };
-        case PlayersInfoActionType.IncreasePlayerRate:
+        case PlayersInfoActionType.LoadPlayerInfoError:
             return {
                 ...state,
-                rate: state.rate + action.payload.additionalRate
+                status: Status.Error
             };
 
-        case PlayersInfoActionType.LoadCollection:
+        case PlayersInfoActionType.LoadPlayerInfoSuccess:
             return {
                 ...state,
-                myCollection: state.myCollection
+                status: Status.Success,
+                player: action.payload
             };
-            case PlayersInfoActionType.RenamePlayer:
-                return {
-                    ...state,
-                    name: action.payload.name
-                };
-                default: return state;
+        default:
+            return state;
     }
 };
