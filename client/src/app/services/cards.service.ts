@@ -11,23 +11,12 @@ import {SpellService} from '../services/spell.service'
 export class CardsService {
   constructor(private cardFacade: CardsFacade, private spellService: SpellService) {}
 
-  public checkingForMyCardsWithZeroOrMinusHP(array: Card[]): any {
-    let that = this;
-    array.forEach(function(card) {
-      if (card.hp !== null && card.hp <= 0) {
-        setTimeout(function() {that.cardFacade.deleteMyCardFromBattle(card.id)
-        }, 1500);
-    
-      }
-    });
-  }
 
-  public checkingEnemyMyCardsWithZeroOrMinusHP(array: Card[]): any {
-    let that = this;
-    array.forEach(function(card) {
-      if (card.hp <= 0) {
-        setTimeout(function() {that.cardFacade.deleteEnemyCardFromBattle(card.id)}, 1500);
-      }
-    });
-  }
+
+
+
+
+
+
+
 }

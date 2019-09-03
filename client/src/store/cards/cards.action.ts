@@ -228,7 +228,7 @@ export class IncreaceMyCardHP implements Action {
 export class DecreaceEnemyCardHP implements Action {
   public readonly type = CardsActionTypes.DecreaceEnemyCardHP;
 
-  constructor(public payload: { myCardId: string,  enemyCardId: string }) {}
+  constructor(public payload: { myCardId: string,  enemyCardId: string, userCardDamage: number }) {}
 }
 
 export class DecreaceMyCardHPWithMyAttack implements Action {

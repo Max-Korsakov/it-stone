@@ -139,8 +139,8 @@ export class CardsFacade {
     this.store.dispatch(new IncreaceMyCardHP({ card, amount }));
   }
 
-  public decreaceEnemyCardHP(myCardId: string, enemyCardId: string): void {
-    this.store.dispatch(new DecreaceEnemyCardHP({ myCardId, enemyCardId }));
+  public decreaceEnemyCardHP(myCardId: string, enemyCardId: string, userCardDamage: number): void {
+    this.store.dispatch(new DecreaceEnemyCardHP({ myCardId, enemyCardId, userCardDamage }));
   }
 
   public decreaceMyCardHPWithMyAttack(myCardId: string, enemyCardId: string): void {

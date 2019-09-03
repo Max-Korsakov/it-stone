@@ -38,7 +38,8 @@ import {
   FightService,
   SocketService,
   TimerService,
-  UserService
+  UserService,
+
 } from 'services';
 import {SpellService} from './services/spell.service'
 import { reducers } from 'store';
@@ -169,18 +170,14 @@ const appRoutes: Routes = [
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs
     },
-    TimerService,
+ 
     SocketService,
-    FightService,
-    UserService,
-    SpellService,
-    SkillsService,
     CardsFacade,
-    SkillsFacade,
     AboutPageFacade,
+    GameProcessFacade,
     PlayersHPFacade,
-    SocketFacade,
-    GameProcessFacade
+    SocketFacade
+   
   ],
   bootstrap: [AppComponent]
 })

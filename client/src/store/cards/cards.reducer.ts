@@ -112,8 +112,6 @@ export const cardsReducer = (
       };
 
     case CardsActionTypes.MoveMyActiveCardsWithinArray:
-      console.log('move with array')
-      console.log(event)
       return {
         ...state,
         myActiveCards: [
@@ -212,29 +210,21 @@ export const cardsReducer = (
         myActiveCards: action.payload.array
       };
 
-    /*   case CardsActionTypes.DecreaceEnemyCardHP:
-      const myAttackCard = state.myActiveCards.filter(item => {
-        return item._id === action.payload.myCardId;
-      });
-      const enemyAttackedCard = state.enemyActiveCards.filter(item => {
+       case CardsActionTypes.DecreaceEnemyCardHP:
+  
+
+      let enemyActiveCardsNewState = [...state.enemyActiveCards];   
+
+      let enemyAttackedCard = enemyActiveCardsNewState.filter(item => {
         return item._id === action.payload.enemyCardId;
       });
-
-      let enemyActiveCardsNewState = state.enemyActiveCards;   //переделать, мутирует стейт
-      enemyActiveCardsNewState[
-        enemyActiveCardsNewState.indexOf(enemyAttackedCard[0])
-      ].hp =
-        enemyActiveCardsNewState[
-          enemyActiveCardsNewState.indexOf(enemyAttackedCard[0])
-        ].hp - myAttackCard[0].damage;
-
-      enemyActiveCardsNewState = enemyActiveCardsNewState.filter(item => {
-        return item.hp > 0;
-      });
+      const indexOfEnemyCard = state.enemyActiveCards.indexOf(enemyActiveCardsNewState[0])
+      enemyAttackedCard[0].hp = enemyAttackedCard[0].hp - action.payload.userCardDamage
+console.log(enemyActiveCardsNewState)
       return {
         ...state,
         enemyActiveCards: enemyActiveCardsNewState
-      };*/
+      };
 
     case CardsActionTypes.DecreaceMyCardHPWithMyAttack:
       const myCard = state.myActiveCards.filter(item => {
@@ -244,25 +234,22 @@ export const cardsReducer = (
         return item._id === action.payload.enemyCardId;
       });
 
-      const otherEnemyActiveCards = state.enemyActiveCards.filter(item => {
-        return item._id !== action.payload.enemyCardId;
-      });
-      const enemyCardIndex = state.enemyActiveCards.indexOf(enemyCard[0]);
+ 
+  
       const myCardIndex = state.myActiveCards.indexOf(myCard[0]);
       const otherActiveCards = state.myActiveCards.filter(item => {
         return item._id !== action.payload.myCardId;
       });
-console.log(myCardIndex)
+
       myCard[0].hp = myCard[0].hp - enemyCard[0].damage;
       otherActiveCards.splice(myCardIndex, 0, myCard[0]);
 
-      enemyCard[0].hp = enemyCard[0].hp - myCard[0].damage;
-      otherEnemyActiveCards.splice(enemyCardIndex, 0, enemyCard[0]);
+
 
       return {
         ...state,
         myActiveCards: otherActiveCards,
-        enemyActiveCards: otherEnemyActiveCards
+      
       };
 
     case CardsActionTypes.DeleteMyCardFromBattle:
